@@ -34,5 +34,8 @@ class Day02KtTest : BaseTest(2024, 2) {
 
     @Test
     fun historianHysteriaSimilarityReal() {
+        val rows = getIntRows()
+        val result = Day02.part2(rows)
+        assert(result == 540)
     }
 }

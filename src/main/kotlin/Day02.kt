@@ -1,29 +1,24 @@
 package com.advent
 
-import kotlin.math.abs
-
 object Day02 {
-    fun part1(input: List<List<Int>>): Int {
-        return input.count { ints ->
-            var diff: Int? = null;
 
-            for (i in 0 until ints.size - 1) {
-                val newDiff = ints[i] - ints[i + 1]
-                if (abs(newDiff) > 3) return@count false;
+    private fun isSave(ints: List<Int>): Boolean {
+        if (ints.size < 2) return true
+        val diffs = ints.zipWithNext { a, b -> b - a }
+        val isIncreasing = diffs.all { it in 1..3 }
+        val isDecreasing = diffs.all { it in -3..-1 }
 
-                val sameSignedness = diff?.let {
-                    (it > 0 && newDiff > 0) || (it < 0 && newDiff < 0)
-                } ?: true
-
-                if (!sameSignedness) return@count false;
-                diff = newDiff
-            }
-            true
-        }
+        return isIncreasing || isDecreasing
     }
 
-    fun part2(input: List<List<Int>>): Int  = input.count { ints ->
-        // ints.windowed()
-        true
+    fun part1(input: List<List<Int>>): Int = input.count(::isSave)
+
+    fun part2(input: List<List<Int>>): Int = input.count { ints ->
+        isSave(ints) || withRemovedItemsIsSave(ints)
+    }
+
+    fun withRemovedItemsIsSave(ints: List<Int>): Boolean = ints.indices.any { i ->
+        // Is it quick? No. Is it late? Yes!
+        ints.toMutableList().also { it.removeAt(i) }.let(::isSave)
     }
 }
