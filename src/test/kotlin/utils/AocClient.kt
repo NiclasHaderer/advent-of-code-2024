@@ -31,13 +31,9 @@ object AocClient {
             .build()
 
 
-        val response = try {
-            client.send(request, HttpResponse.BodyHandlers.ofString())
-        } catch (t: Throwable) {
-            return "Unable to connect to AoC"
-        }
+        val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
-        return if (response.statusCode() in 200..299) {
+        val responseString = if (response.statusCode() in 200..299) {
             val body = response.body().toString()
             if (body.contains("That's not the right answer")) {
                 var wait = ""
@@ -58,6 +54,9 @@ object AocClient {
         } else {
             "Unable to submit answer; Status: ${response.statusCode()}"
         }
+
+        println(responseString)
+        return responseString
     }
 
     fun input(year: Int, day: Int): String {

@@ -7,28 +7,28 @@ class Day01KtTest : BaseTest(2024, 1) {
     private val b = listOf(4, 3, 5, 3, 9, 3)
 
     @Test
-    fun historianHysteria() {
+    fun part1() {
         val result = Day01.part1(a, b)
         assert(result == 11)
     }
 
     @Test
-    fun historianHysteriaReal() {
-        val (a, b) = getInput()
+    fun part1Real() {
+        val (a, b) = getTwoIntColumns()
         val result = Day01.part1(a, b)
         assert(result == 2264607)
     }
 
 
     @Test
-    fun historianHysteriaSimilarity() {
+    fun part2() {
         val result = Day01.part2(a, b)
         assert(result == 31)
     }
 
     @Test
-    fun historianHysteriaSimilarityReal() {
-        val (a, b) = getInput()
+    fun part2Real() {
+        val (a, b) = getTwoIntColumns()
         val result = Day01.part2(a, b)
         assert(result == 19457120)
     }

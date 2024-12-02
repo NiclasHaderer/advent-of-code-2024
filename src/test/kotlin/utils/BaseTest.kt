@@ -3,8 +3,8 @@ package utils
 import java.io.File
 
 open class BaseTest(
-    year: Int,
-    day: Int
+    private val year: Int,
+    private val day: Int
 ) {
     val inputFile = File("src/inputs/puzzle_${day.toString().padStart(2, '0')}.txt")
 
@@ -15,14 +15,27 @@ open class BaseTest(
         }
     }
 
-    fun getInput(): Pair<List<Int>, List<Int>> {
+    fun getTwoIntColumns(): Pair<List<Int>, List<Int>> {
         val regex = Regex("""(\d+) +(\d+)""")
         val content = inputFile.readText()
-        val (a, b) = content.lines().map { line ->
-            val (first, second) = regex.find(line)?.destructured ?: return@map null
-            first.toInt() to second.toInt()
-        }.filterNotNull().unzip()
+        val (a, b) = content.lines()
+            .filter { it.isNotBlank() }
+            .map { line ->
+                val (first, second) = regex.find(line)!!.destructured
+                first.toInt() to second.toInt()
+            }.unzip()
         return a to b
+    }
+
+    fun getIntRows(): List<List<Int>> {
+        val content = inputFile.readText()
+        return content.lines()
+            .filter { it.isNotBlank() }
+            .map { line -> line.split(" ").map { it.toInt() } }
+    }
+
+    fun submitInt(level: Int, value: Int) {
+        AocClient.submit(year, day, level, value)
     }
 
 }
